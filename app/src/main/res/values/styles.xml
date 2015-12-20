@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="listItemBackground">@drawable/card_light</item>
+        <item name="listViewBackground">@color/list_view_bg_light</item>
     </style>
 
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="listItemBackground" format="reference" />
+    <attr name="listItemDefaultImage" format="reference" />
+    <attr name="listViewBackground" format="reference" />
+    <attr name="listViewDivider" format="reference" />
+</resources>
