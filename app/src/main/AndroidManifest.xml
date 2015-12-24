@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -24,6 +27,8 @@
         <activity android:name=".ui.NewsDetailActivity" />
         <activity android:name=".ui.ImageActivity" />
 
+        <meta-data android:value="567b801de0f55aa1b6001693" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="DEV" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>
