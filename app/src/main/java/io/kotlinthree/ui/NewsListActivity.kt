@@ -25,9 +25,10 @@ import java.util.*
  * Created by jameson on 12/19/15.
  */
 class NewsListActivity : BaseActivity(), AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
-    private var mListView: ListView? = null
-    private var mAdapter: NewsListAdapter? = null
+
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mListView: ListView
+    private lateinit var mAdapter: NewsListAdapter
     private var mList: List<News> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +43,10 @@ class NewsListActivity : BaseActivity(), AdapterView.OnItemClickListener, SwipeR
         mSwipeRefreshLayout = findView<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
         mListView = findView<ListView>(R.id.listView)
         mAdapter = NewsListAdapter(this, mList)
-        mListView!!.adapter = mAdapter
-        mListView!!.onItemClickListener = this
+        mListView.adapter = mAdapter
+        mListView.onItemClickListener = this
 
-        mSwipeRefreshLayout!!.setOnRefreshListener(this)
+        mSwipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun loadData() {
@@ -53,19 +54,19 @@ class NewsListActivity : BaseActivity(), AdapterView.OnItemClickListener, SwipeR
         val call = ApiUtil.getService().listNews(date)
         call.enqueue(object : Callback<NewsListData> {
             override fun onResponse(response: Response<NewsListData>, retrofit: Retrofit) {
-                mSwipeRefreshLayout!!.isRefreshing = false
+                mSwipeRefreshLayout.isRefreshing = false
                 val statusCode = response.code()
                 LogUtils.i(statusCode.toString())
                 if (response.isSuccess) {
                     mList = response.body().stories
-                    mAdapter!!.notifyDataSetChanged(mList)
+                    mAdapter.notifyDataSetChanged(mList)
                 }
             }
 
             override fun onFailure(t: Throwable) {
-                mSwipeRefreshLayout!!.isRefreshing = false
+                mSwipeRefreshLayout.isRefreshing = false
                 if (t.message != null) {
-                    showToast(t.message!!.toString())
+                    showToast(t.message.toString())
                 }
             }
         })
@@ -73,7 +74,7 @@ class NewsListActivity : BaseActivity(), AdapterView.OnItemClickListener, SwipeR
     }
 
     override fun onRefresh() {
-        mListView!!.postDelayed({ loadData() }, 1000)
+        mListView.postDelayed({ loadData() }, 1000)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
