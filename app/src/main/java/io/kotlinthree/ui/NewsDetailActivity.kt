@@ -26,10 +26,9 @@ import java.util.*
  */
 class NewsDetailActivity : BaseActivity() {
 
-    var mNewsId: Int = 0
-    var mNews: News? = null;
-    var mWebView: WebView? = null;
-    var mDetailImageList: ArrayList<String>? = ArrayList();
+    private var mNewsId: Int = 0
+    private lateinit var mNews: News
+    private lateinit var mWebView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +41,11 @@ class NewsDetailActivity : BaseActivity() {
 
     private fun initViews() {
         mWebView = findView<WebView>(R.id.webView);
-        mWebView!!.settings.javaScriptEnabled = true
-        mWebView!!.addJavascriptInterface(JavaScriptObject(this), "injectedObject")
+        mWebView.settings.javaScriptEnabled = true
+        mWebView.addJavascriptInterface(JavaScriptObject(this), "injectedObject")
         // 设置缓存模式
-        mWebView!!.getSettings().cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-        mWebView!!.setWebViewClient(MyWebViewClient())
+        mWebView.getSettings().cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        mWebView.setWebViewClient(MyWebViewClient())
     }
 
     private fun loadData() {
@@ -58,18 +57,18 @@ class NewsDetailActivity : BaseActivity() {
                 if (response.isSuccess) {
                     mNews = response.body()
                     var html = AssetsUtils.loadText(mContext, Constants.TEMPLATE_DEF_URL)
-                    html = html.replace("{content}", mNews!!.body)
+                    html = html.replace("{content}", mNews.body)
                     var headerDef = "file:///android_asset/www/news_detail_header_def.jpg"
-                    headerDef = mNews!!.image
-                    val wrapperBody = ZhihuWebUtil.wrapperBody(html, mNews!!.title, mNews!!.image_source, headerDef)
-                    mWebView!!.loadDataWithBaseURL(null, wrapperBody, "text/html", "UTF-8", null)
-                    // mWebView!!.loadData(wrapperBody, "text/html; charset=UTF-8", null)
+                    headerDef = mNews.image
+                    val wrapperBody = ZhihuWebUtil.wrapperBody(html, mNews.title, mNews.image_source, headerDef)
+                    mWebView.loadDataWithBaseURL(null, wrapperBody, "text/html", "UTF-8", null)
+                    // mWebView.loadData(wrapperBody, "text/html; charset=UTF-8", null)
                 }
             }
 
             override fun onFailure(t: Throwable) {
                 if (t.message != null) {
-                    showToast(t.message!!.toString())
+                    showToast(t.message.toString())
                 }
             }
         })
@@ -78,7 +77,7 @@ class NewsDetailActivity : BaseActivity() {
     class MyWebViewClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
             super.shouldOverrideUrlLoading(view, url)
-            view!!.loadUrl(url);
+            view?.loadUrl(url);
             //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
             return true
         }
